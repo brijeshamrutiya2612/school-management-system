@@ -1,0 +1,25 @@
+.bg {
+  background-color: #c47a03;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-Index: 2;
+}
+.nav_brand_element {
+  font-size: 35px;
+  color: #ffffff;
+  margin-right: 5em;
+}
+.nav_element {
+  color: #ffffff;
+}
+
+@media only screen and (min-width: 100px) and (max-width: 500px) {
+  .nav_brand_element {
+    font-size: 20px;
+    margin-right: 0em;
+  }
+  ul {
+    width: 370px;
+  }
+}
