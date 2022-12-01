@@ -1,0 +1,19 @@
+.footer {
+  /* margin-top: 1rem; */
+  /* padding: 20px; */
+  background-color: #c47a03;
+  /* position: fixed; */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.footer_brand_element {
+  font-size: 35px;
+  color: #ffffff;
+  padding: 1rem;
+}
+.footer_copy_element {
+  font-size: 15px;
+  color: #ffffff;
+}
+

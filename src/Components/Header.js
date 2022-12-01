@@ -1,13 +1,27 @@
 import React from "react";
-import "../Css/Header.css"
-import { Button, Container, Form, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import "../Css/Header.css";
+import {
+  Button,
+  Container,
+  Form,
+  Nav,
+  Navbar,
+  NavDropdown,
+} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const nav = useNavigate();
+  const login = () => {
+    nav("/login");
+  };
   return (
     <div>
       <Navbar expand="lg" className="bg">
         <Container fluid>
-          <Navbar.Brand className="nav_brand_element" href="#">School Management System</Navbar.Brand>
+          <Navbar.Brand className="nav_brand_element" href="#">
+            School Management System
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -15,35 +29,30 @@ const Header = () => {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link className="nav_element" href="#action1">Home</Nav.Link>
-              <Nav.Link className="nav_element" href="#action2">Students</Nav.Link>
-              <Nav.Link className="nav_element" href="#action2">Faculties</Nav.Link>
-              <Nav.Link className="nav_element" href="#action2">Admission</Nav.Link>
-              <Nav.Link className="nav_element" href="#action2">Event & Holidays</Nav.Link>
-              <Nav.Link className="nav_element" href="#action2">Notice Board</Nav.Link>
-              {/* <NavDropdown className="nav_element" title="Link" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action5">
-                  Something else here
-                </NavDropdown.Item>
-              </NavDropdown> */}
-              <Nav.Link href="#" disabled>
-                Link
+              <Nav.Link className="nav_element" href="#action1">
+                Home
+              </Nav.Link>
+              <Nav.Link className="nav_element" href="#action2">
+                Students
+              </Nav.Link>
+              <Nav.Link className="nav_element" href="#action3">
+                Faculties
+              </Nav.Link>
+              <Nav.Link className="nav_element" href="#action4">
+                Admission
+              </Nav.Link>
+              <Nav.Link className="nav_element" href="#action5">
+                Event & Holidays
+              </Nav.Link>
+              <Nav.Link className="nav_element" href="#action6">
+                Notice Board
               </Nav.Link>
             </Nav>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form>
+            <Nav>
+              <Nav.Link className="head_login_btn" onClick={login}>
+                Login
+              </Nav.Link>
+            </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
