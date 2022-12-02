@@ -5,18 +5,18 @@
   padding-left: 25rem;
 }
 
-.card {
+.login_card {
   width: 28rem;
   height: 40vh;
-  border-radius: 0px 0px 50px 0px;
+  border-radius: 0px 0px 0px 0px;
   box-shadow: 5px 5px 10px -5px #c47a03;
 }
-.card:hover {
+.login_card:hover {
   display: block;
   opacity: 1;
   transition: 0.9s ease-in-out;
 }
-.card_title {
+.login_card_title {
   font-size: 30px;
 }
 
@@ -35,5 +35,3 @@ input[type="number"]:focus {
   border: 0.1px solid skyblue;
 }
 
-.btn {
-}

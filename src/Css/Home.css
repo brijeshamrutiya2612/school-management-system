@@ -27,13 +27,13 @@ img {
   width: 20vh;
 }
 
-.card {
+.home_card {
   width: 28rem;
   height: 30vh;
   border-radius: 40px 40px 40px 40px;
   box-shadow: 5px 5px 3px 0.5px #c47a03;
 }
-.card:hover {
+.home_card:hover {
   display: block;
   opacity: 1;
   transition: 0.9s ease-in-out;
@@ -41,10 +41,10 @@ img {
   background-color: #001f5e;
   color: white;
 }
-.card:hover .btn {
+.home_card:hover .btn {
   border: 1px solid #c47a03;
 }
-.card_title {
+.home_card_title {
   font-size: 30px;
 }
 .home_head_h2 {
@@ -82,7 +82,7 @@ img {
     font-size: 20px;
     margin-right: 0em;
   }
-  .card {
+  .home_card {
     width: auto;
     height: auto;
   }
@@ -102,7 +102,7 @@ img {
     font-size: 20px;
     margin-right: 0em;
   }
-  .card {
+  .home_card {
     width: auto;
     height: auto;
   }

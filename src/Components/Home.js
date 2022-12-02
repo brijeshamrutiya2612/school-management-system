@@ -31,9 +31,9 @@ const Home = () => {
       <div className="container">
         <div className="row">
           <div className="col-lg-7 mt-2 center">
-            <Card className="card">
+            <Card className="home_card">
               <Card.Body>
-                <Card.Title className="card_title">
+                <Card.Title className="home_card_title">
                   Student Information
                 </Card.Title>
                 <Card.Text>
@@ -44,9 +44,9 @@ const Home = () => {
             </Card>
           </div>
           <div className="col-lg-4 mt-2 center">
-            <Card className="card">
+            <Card className="home_card">
               <Card.Body>
-                <Card.Title className="card_title">
+                <Card.Title className="home_card_title">
                   Faculties Information
                 </Card.Title>
                 <Card.Text>School's All Faculties Information.</Card.Text>
@@ -55,9 +55,9 @@ const Home = () => {
             </Card>
           </div>
           <div className="col-lg-7 mt-5 center">
-            <Card className="card">
+            <Card className="home_card">
               <Card.Body>
-                <Card.Title className="card_title">Event & Holidays</Card.Title>
+                <Card.Title className="home_card_title">Event & Holidays</Card.Title>
                 <Card.Text>
                   A Cultural Event and Which days on holdays in schools
                 </Card.Text>
@@ -67,9 +67,9 @@ const Home = () => {
           </div>
 
           <div className="col-lg-4 mt-5 center">
-            <Card className="card">
+            <Card className="home_card">
               <Card.Body>
-                <Card.Title className="card_title">
+                <Card.Title className="home_card_title">
                   Sports Activities
                 </Card.Title>
                 <Card.Text>
@@ -80,9 +80,9 @@ const Home = () => {
             </Card>
           </div>
           <div className="col-lg-7 mt-5 center">
-            <Card className="card">
+            <Card className="home_card">
               <Card.Body>
-                <Card.Title className="card_title">Exams</Card.Title>
+                <Card.Title className="home_card_title">Exams</Card.Title>
                 <Card.Text>Exam Scheduals</Card.Text>
                 <Card.Link className="btn">Get Exam Scheduals</Card.Link>
               </Card.Body>
@@ -90,9 +90,9 @@ const Home = () => {
           </div>
 
           <div className="col-lg-4 mt-5 center">
-            <Card className="card">
+            <Card className="home_card">
               <Card.Body>
-                <Card.Title className="card_title">Admission</Card.Title>
+                <Card.Title className="home_card_title">Admission</Card.Title>
                 <Card.Text>
                   Get admission in our school to make your child smart and
                   intelligent

@@ -9,17 +9,20 @@ import {
   NavDropdown,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { Commonfunction } from "../Functions/Loginfunctions";
 
 const Header = () => {
   const nav = useNavigate();
-  const login = () => {
-    nav("/login");
-  };
   return (
     <div>
       <Navbar expand="lg" className="bg">
         <Container fluid>
-          <Navbar.Brand className="nav_brand_element" href="#">
+          <Navbar.Brand
+            className="nav_brand_element"
+            onClick={() => {
+              nav("/");
+            }}
+          >
             School Management System
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
@@ -49,7 +52,12 @@ const Header = () => {
               </Nav.Link>
             </Nav>
             <Nav>
-              <Nav.Link className="head_login_btn" onClick={login}>
+              <Nav.Link
+                className="head_login_btn"
+                onClick={() => {
+                  nav("/login");
+                }}
+              >
                 Login
               </Nav.Link>
             </Nav>
