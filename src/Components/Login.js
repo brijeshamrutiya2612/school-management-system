@@ -1,16 +1,33 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../Css/Login.css";
-import { Loginfunctions } from "../Functions/Loginfunctions";
+import { loginAction } from "../Redux/Actions/Adminaction";
 
 const Login = () => {
+  const { loading, adminInfo } = useSelector(
+    (state) => state.admin
+  );
   const nav = useNavigate();
   const dispatch = useDispatch();
-  const email = useRef();
+  const { search } = useLocation();
+  const redirectInUrl = new URLSearchParams(search).get("redirect");
+  const redirect = redirectInUrl ? redirectInUrl : "/admin";
+
+
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+  useEffect(() => {
+    if (adminInfo.isAuthenticated) {
+      nav(redirect);
+    }
+  }, [nav, adminInfo, redirect]);
+
   const Login = () => {
-    dispatch({ type: "success", payload:email.current.value});
+    dispatch(loginAction(loginData));
   };
   return (
     <div className="container">
@@ -21,12 +38,24 @@ const Login = () => {
               <Card.Body>
                 <Card.Title className="card_title center">Sign In</Card.Title>
                 <Card.Text>Enrollment No.</Card.Text>
-                <input type="number" ref={email} autoComplete="new-password" />
+                <input
+                  type="text"
+                  autoComplete="off"
+                  onChange={(e) =>
+                    setLoginData({ ...loginData, email: e.target.value })
+                  }
+                />
                 <Card.Text>Password</Card.Text>
-                <input type="password" />
+                <input
+                  type="password"
+                  autoComplete="off"
+                  onChange={(e) =>
+                    setLoginData({ ...loginData, password: e.target.value })
+                  }
+                />
                 <br />
                 <Button className="btn" onClick={Login}>
-                  Login
+                  {!loading ? "Login" : "Loading..."}
                 </Button>
               </Card.Body>
             </Card>

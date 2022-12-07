@@ -1,20 +1,24 @@
 import React from "react";
 import "../Css/Header.css";
 import {
-  Button,
   Container,
-  Form,
   Nav,
   Navbar,
-  NavDropdown,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Commonfunction } from "../Functions/Loginfunctions";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { logoutAction } from "../Redux/Actions/Adminaction";
 
 const Header = () => {
+  const { loading, error, adminInfo } = useSelector((state) => state.admin);
   const nav = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(()=>{
+
+  },[adminInfo])
   return (
-    <div>
+    <div className="header">
       <Navbar expand="lg" className="bg">
         <Container fluid>
           <Navbar.Brand
@@ -52,14 +56,25 @@ const Header = () => {
               </Nav.Link>
             </Nav>
             <Nav>
+              {adminInfo.isAuthenticated ?
               <Nav.Link
-                className="head_login_btn"
-                onClick={() => {
-                  nav("/login");
-                }}
+              className="head_login_btn"
+              onClick={() => {
+                dispatch(logoutAction(adminInfo))
+              }}
+              >
+                Logout
+              </Nav.Link>
+              :
+              <Nav.Link
+              className="head_login_btn"
+              onClick={() => {
+                nav("/login");
+              }}
               >
                 Login
               </Nav.Link>
+              }
             </Nav>
           </Navbar.Collapse>
         </Container>

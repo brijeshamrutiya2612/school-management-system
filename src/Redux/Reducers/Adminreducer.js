@@ -1,28 +1,30 @@
-import { createAction, createReducer } from "@reduxjs/toolkit";
-
-const pendding = createAction("pendding");
-const success = createAction("success");
-const fail = createAction("fail");
+import { createReducer } from "@reduxjs/toolkit";
+import {
+  LOGIN_FAIL,
+  LOGIN_PENDING,
+  LOGIN_SUCCESS,
+} from "../Constants/Adminconstant";
 
 const intialState = {
-  loading: false,
   adminInfo: [],
-  adminToken: null,
-  error: null,
-  success: false,
 };
 
-const adminSlice = createReducer(intialState, (builder) => {
-  builder
-    .addCase(pendding, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(success, (state, action) => {
-      state.loading = false;
-      const adminInfo = action.payload;
-      return {...state, adminInfo: adminInfo};
-    });
-});
-
-export default adminSlice;
+export const adminReducer = (state = intialState, action) => {
+  switch (action.type) {
+    case LOGIN_PENDING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        adminInfo: action.payload,
+      };
+    case LOGIN_FAIL:
+      return { ...state, error: action.payload };
+    default:
+      return state;
+  }
+};

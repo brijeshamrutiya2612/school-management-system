@@ -1,15 +1,26 @@
-import { configureStore } from "@reduxjs/toolkit";
-import adminReducer from "./Redux/Reducers/Adminreducer";
+import {
+  applyMiddleware,
+  combineReducers,
+  configureStore,
+} from "@reduxjs/toolkit";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
+import { adminReducer } from "./Redux/Reducers/Adminreducer";
 
-const store = configureStore({
-  reducer: {
-    admin: adminReducer,
-  },
+const reducers = combineReducers({
+  admin: adminReducer,
 });
 
-export default store;
+let intialState = {};
 
-// let intialState = {};
-// const middleware = [thunk];
-// intialState,
-// composeWithDevTools(applyMiddleware(...middleware))
+const middleware = [thunk];
+
+const store = configureStore(
+  {
+    reducer: reducers,
+  },
+  intialState,
+  composeWithDevTools(applyMiddleware(...middleware))
+);
+
+export default store;
