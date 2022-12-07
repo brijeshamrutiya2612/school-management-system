@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Button,
+  DialogContentText,
   FormControl,
   InputLabel,
   MenuItem,
@@ -140,15 +141,16 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                History
+                Detail
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
+                    <TableCell>Joining Date</TableCell>
+                    <TableCell>Enrollment No</TableCell>
+                    <TableCell>Student</TableCell>
+                    <TableCell>Address</TableCell>
+                    <TableCell>Contact</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -158,8 +160,8 @@ function Row(props) {
                         {historyRow.date}
                       </TableCell>
                       <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
+                      <TableCell>{historyRow.amount}</TableCell>
+                      <TableCell>
                         {Math.round(historyRow.amount * row.price * 100) / 100}
                       </TableCell>
                     </TableRow>
@@ -256,6 +258,9 @@ const Student = () => {
       >
         <DialogTitle className="center">Add Student Detail</DialogTitle>
         <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Personal Details
+            </DialogContentText>
           <Box
             noValidate
             component="form"
@@ -267,13 +272,13 @@ const Student = () => {
             }}
           >
             <TextField
-              className="m-4"
+              className="mr-4"
               required
               id="outlined-required"
               label="First Name"
             />
             <TextField
-              className="m-4"
+              className="mr-4"
               required
               id="outlined-required"
               label="Last Name"
@@ -288,7 +293,7 @@ const Student = () => {
               <Stack className="m-4" spacing={3}>
                 <DesktopDatePicker
                   label="Date of Birth"
-                  inputFormat="MM/DD/YYYY"
+                  inputFormat="DD/MM/YYYY"
                   value={dob_value}
                   onChange={handle_Dob_Value_Change}
                   renderInput={(params) => <TextField {...params} />}
