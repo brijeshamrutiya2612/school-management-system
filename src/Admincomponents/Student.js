@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   DialogContentText,
@@ -26,11 +26,20 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import TextField from "@mui/material/TextField";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import "./css/student.css";
+import { addStudentDetail } from "../Redux/Actions/Adminaction";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import {
+  ADD_ADMISSION_DETAIL_FAIL,
+  ADD_STUDENT_DETAIL_FAIL,
+  ADD_STUDENT_DETAIL_RESULT,
+} from "../Redux/Constants/Adminconstant";
+import { useNavigate } from "react-router-dom";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 function createData(
   rollno,
@@ -105,7 +114,7 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.rollno}
         </TableCell>
-        <TableCell align="left">{row.enrollmentno}</TableCell>
+        <TableCell align="left">{row.e_no}</TableCell>
         <TableCell align="left">{row.studentname}</TableCell>
         <TableCell align="center">
           {row.section}-{row.grade}
@@ -175,27 +184,97 @@ function Row(props) {
     </React.Fragment>
   );
 }
+
+const grade = [1, 2, 3, 4, 5];
+const section = ["A", "B", "C"];
+
 const Student = () => {
+  const { error, adminInfo, studentError, addStudent,getStudent } = useSelector(
+    (state) => state.admin
+  );
+  console.log("getStudent",getStudent)
   const [open, setOpen] = useState(false);
+  const nav = useNavigate();
+  const dispatch = useDispatch();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xl"));
   const [fullWidth, setFullWidth] = useState(true);
   const [maxWidth, setMaxWidth] = useState("lg");
 
-  const [joinDate_value, setJoinDate_value] = useState();
-  const [dob_value, setDob_value] = useState();
-  const [age, setAge] = React.useState("");
+  const dateNow = new Date();
+  const year = dateNow.getFullYear();
+  const month = dateNow.getUTCMonth() + 1;
+  const date = dateNow.getUTCDate();
+  const currentDate = `${year}-${month}-${date}`;
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+  const [studentDetail, setStudentDetail] = useState({
+    fname: "",
+    lname: "",
+    rollno: "",
+    e_no: `1101${year}`,
+    password: "",
+    email: "",
+    mobile: "",
+    gender: "",
+    dob: "",
+    grade: "",
+    section: "",
+    jon_date: "",
+    attendance_report: [{}],
+  });
+console.log("addStudent",addStudent)
+  useEffect(()=>{
+    console.log("Checking");
+    if (addStudent == 201) {
+      console.log("Rendering");
+      setTimeout(() => {
+        dispatch({
+          type: ADD_STUDENT_DETAIL_RESULT,
+          payload: [],
+        });
+      }, 5000);
+      setOpen(false);
+    }
+  },[addStudent])
 
-  const handle_Join_Date_Change = (newValue) => {
-    setJoinDate_value(newValue);
-  };
 
-  const handle_Dob_Value_Change = (newValue) => {
-    setDob_value(newValue);
+  const sendStudentData = () => {
+    var validRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    if (studentDetail.fname === "") {
+      toast.error("Firstname Is Required");
+    } else if (studentDetail.lname === "") {
+      toast.error("Lastname Is Required");
+    } else if (studentDetail.email === "") {
+      toast.error("Email Is Required");
+    } else if (!studentDetail.email.match(validRegex)) {
+      toast.error("Invalid Email");
+    } else if (studentDetail.email.length < 3) {
+      toast.error("Invalid Email");
+    } else if (studentDetail.mobile === "") {
+      toast.error("Mobile Is Required");
+    } else if (studentDetail.gender === "") {
+      toast.error("Gender Is Required");
+    } else if (studentDetail.dob === "") {
+      toast.error("DOB Is Required");
+    } else if (studentDetail.grade === "") {
+      toast.error("Grade Is Required");
+    } else if (studentDetail.section === "") {
+      toast.error("Section Is Required");
+    } else if (studentDetail.jon_date === "") {
+      toast.error("Join Date Is Required");
+    } else {
+      dispatch(addStudentDetail(studentDetail));
+    }
+    
+    // setTimeout(() => {
+    //   if (addStudent == 201) {
+    //     setTimeout(() => {
+    //       setOpen(false);
+    //     }, 5000);
+    //   }
+    // }, 5000);
   };
 
   const handleClickOpen = () => {
@@ -243,8 +322,8 @@ const Student = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <Row key={row.name} row={row} />
+              {getStudent.map((row) => (
+                <Row key={row.id} row={row} />
               ))}
             </TableBody>
           </Table>
@@ -256,61 +335,131 @@ const Student = () => {
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle className="center">Add Student Detail</DialogTitle>
-        <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description">
-              Personal Details
-            </DialogContentText>
+        <DialogTitle style={{ fontSize: "40px" }} className="center">
+          <b>Add Student Detail</b>
+        </DialogTitle>
+        <DialogContent className="container">
           <Box
             noValidate
-            component="form"
+            component=""
             sx={{
               display: "flex",
               flexDirection: "row",
               m: "auto",
-              width: "fit-content",
+              textAlign: "left",
+            }}
+          >
+            <DialogContentText
+              style={{ fontSize: "25px", textAlign: "left" }}
+              id="alert-dialog-slide-description"
+            >
+              <b>Personal Details</b>
+            </DialogContentText>
+          </Box>
+          <Box
+            noValidate
+            component="form"
+            className="container"
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              flexDirection: "row",
+              m: "auto",
+              // width: 1800,
             }}
           >
             <TextField
-              className="mr-4"
+              className="m-4 col-lg-2"
               required
               id="outlined-required"
               label="First Name"
+              onChange={(e) =>
+                setStudentDetail({ ...studentDetail, fname: e.target.value })
+              }
             />
             <TextField
-              className="mr-4"
+              className="m-4 col-lg-2"
               required
               id="outlined-required"
               label="Last Name"
+              onChange={(e) =>
+                setStudentDetail({ ...studentDetail, lname: e.target.value })
+              }
             />
             <TextField
-              className="m-4"
+              className="m-4 col-lg-2"
               required
               id="outlined-required"
-              label="Class"
+              label="Email"
+              onChange={(e) =>
+                setStudentDetail({ ...studentDetail, email: e.target.value })
+              }
             />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Stack className="m-4" spacing={3}>
-                <DesktopDatePicker
-                  label="Date of Birth"
-                  inputFormat="DD/MM/YYYY"
-                  value={dob_value}
-                  onChange={handle_Dob_Value_Change}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Stack>
-            </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Stack className="m-4" spacing={3}>
-                <DesktopDatePicker
-                  label="Join Date"
-                  inputFormat="MM/DD/YYYY"
-                  value={joinDate_value}
-                  onChange={handle_Join_Date_Change}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Stack>
-            </LocalizationProvider>
+            <TextField
+              className="m-4 col-lg-2"
+              required
+              id="outlined-required"
+              label="Mobile"
+              type="number"
+              onChange={(e) =>
+                setStudentDetail({ ...studentDetail, mobile: e.target.value })
+              }
+            />
+            <FormControl sx={{ m: 1, minWidth: 100 }} className="m-4">
+              <InputLabel id="demo-simple-select-autowidth-label">
+                Gender
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-autowidth-label"
+                id="demo-simple-select-autowidth"
+                value={studentDetail.gender}
+                // onChange={handleChange}
+                autoWidth
+                label="Age"
+                onChange={(e) =>
+                  setStudentDetail({ ...studentDetail, gender: e.target.value })
+                }
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="Male">Male</MenuItem>
+                <MenuItem value="Female">Female</MenuItem>
+              </Select>
+            </FormControl>
+            <Stack component="form" noValidate spacing={3}>
+              <TextField
+                id="date"
+                label="Date of Birth"
+                type="date"
+                className="m-4"
+                defaultValue={currentDate}
+                onChange={(e) =>
+                  setStudentDetail({ ...studentDetail, dob: e.target.value })
+                }
+                sx={{ width: 220 }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Stack>
+          </Box>
+          <Box
+            noValidate
+            component=""
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              m: "auto",
+              textAlign: "left",
+            }}
+          >
+            <DialogContentText
+              style={{ fontSize: "25px", textAlign: "left" }}
+              id="alert-dialog-slide-description"
+            >
+              <b>School Details</b>
+            </DialogContentText>
           </Box>
           <Box
             noValidate
@@ -319,73 +468,78 @@ const Student = () => {
               display: "flex",
               flexDirection: "row",
               m: "auto",
-              width: "fit-content",
             }}
           >
-            <TextField
-              className="m-4"
-              required
-              id="outlined-required"
-              label="First Name"
-            />
-            <TextField
-              className="m-4"
-              required
-              id="outlined-required"
-              label="Last Name"
-            />
-            <TextField
-              className="m-4"
-              required
-              id="outlined-required"
-              label="Class"
-            />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Stack className="m-4" spacing={3}>
-                <DesktopDatePicker
-                  label="Date of Birth"
-                  inputFormat="MM/DD/YYYY"
-                  value={dob_value}
-                  onChange={handle_Dob_Value_Change}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Stack>
-            </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Stack className="m-4" spacing={3}>
-                <DesktopDatePicker
-                  label="Join Date"
-                  inputFormat="MM/DD/YYYY"
-                  value={joinDate_value}
-                  onChange={handle_Join_Date_Change}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Stack>
-            </LocalizationProvider>
-            <FormControl sx={{ m: 1, minWidth: 80 }}>
+            <FormControl sx={{ m: 1, minWidth: 150 }} className="m-4">
               <InputLabel id="demo-simple-select-autowidth-label">
-                Age
+                Grade
               </InputLabel>
               <Select
                 labelId="demo-simple-select-autowidth-label"
                 id="demo-simple-select-autowidth"
-                value={age}
-                onChange={handleChange}
+                value={studentDetail.grade}
+                onChange={(e) =>
+                  setStudentDetail({ ...studentDetail, grade: e.target.value })
+                }
                 autoWidth
                 label="Age"
               >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>Twenty</MenuItem>
-                <MenuItem value={21}>Twenty one</MenuItem>
-                <MenuItem value={22}>Twenty one and a half</MenuItem>
+                {grade.map((item) => {
+                  return <MenuItem value={item}>{item}</MenuItem>;
+                })}
               </Select>
             </FormControl>
+            <FormControl sx={{ m: 1, minWidth: 150 }} className="m-4">
+              <InputLabel id="demo-simple-select-autowidth-label">
+                Section
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-autowidth-label"
+                id="demo-simple-select-autowidth"
+                value={studentDetail.section}
+                onChange={(e) =>
+                  setStudentDetail({
+                    ...studentDetail,
+                    section: e.target.value,
+                  })
+                }
+                autoWidth
+                label="Age"
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {section.map((item) => {
+                  return <MenuItem value={item}>{item}</MenuItem>;
+                })}
+              </Select>
+            </FormControl>
+            <Stack component="form" noValidate spacing={3}>
+              <TextField
+                id="date"
+                label="Date of Joining"
+                type="date"
+                className="m-4"
+                defaultValue={currentDate}
+                onChange={(e) =>
+                  setStudentDetail({
+                    ...studentDetail,
+                    jon_date: e.target.value,
+                  })
+                }
+                sx={{ width: 220 }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Stack>
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" color="success" onClick={handleClose}>
+          <Button variant="contained" color="success" onClick={sendStudentData}>
             save
           </Button>
           <Button variant="contained" color="error" onClick={handleClose}>

@@ -29,9 +29,5 @@ input {
   background-color: white;
   border: 0.1px solid grey;
 }
-input[type="number"]:focus {
-  background-color: #ffd969;
-  box-shadow: 1px 1px 5px 5px skyblue;
-  border: 0.1px solid skyblue;
-}
+
 

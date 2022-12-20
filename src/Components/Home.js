@@ -15,7 +15,16 @@ const Home = () => {
           </div>
           <div className="row">
             <div className="col-lg-15 d-flex center">
-            <a href="#overview" className="btn">Explore More</a>
+            <a 
+            href="#overview" 
+            // onClick={()=>{
+            //   window.scrollTo({
+            //     top: 100,
+            //     left: 100,
+            //     behavior: 'smooth'
+            //   });
+            // }}
+            className="btn">Explore More</a>
             </div>
           </div>
         </div>
@@ -107,7 +116,10 @@ const Home = () => {
         <div className="container">
           <div className="row">
             <div className="col-lg-7 d-flex">
-              <h2 className="home_head_h2">Brief Tour of School</h2>
+              <h2  onClick={()=>{
+              console.log("pressed")
+              window.scrollTo({top:0})
+            }} className="home_head_h2">Brief Tour of School</h2>
             </div>
           </div>
         </div>

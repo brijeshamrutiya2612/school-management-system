@@ -6,41 +6,30 @@
       "password": "abc@123",
       "isAuthenticated": true,
       "role": "admin"
-    },
-    {
-      "isAuthenticated": true,
-      "id": 2
-    },
-    {
-      "isAuthenticated": true,
-      "id": 3
-    },
-    {
-      "isAuthenticated": true,
-      "id": 4
-    },
-    {
-      "isAuthenticated": true,
-      "id": 5
-    },
-    {
-      "isAuthenticated": true,
-      "id": 6
-    },
-    {
-      "isAuthenticated": true,
-      "id": 7
-    },
-    {
-      "isAuthenticated": true,
-      "id": 8
     }
   ],
   "students": [
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "fname": "Brijesh",
+      "lname": "Amrutiya",
+      "rollno": "001",
+      "e_no": "11011993001",
+      "password": "abc@123",
+      "email": "brijesh840150@gmail.com",
+      "mobile": "8401505315",
+      "gender": "Male",
+      "dob": "2019-03-20",
+      "grade": 1,
+      "section": "A",
+      "jon_date": "2024-12-20",
+      "attendance_report": [
+        {
+          "availability": false,
+          "present_date": "2022-12-20"
+        }
+      ],
+      "studAuthentication": false,
+      "id": 1
     }
   ],
   "teachers": {

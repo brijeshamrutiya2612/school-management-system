@@ -13,25 +13,35 @@ const Admindashboard = () => {
   const { adminInfo } = useSelector((state) => state.admin);
   return (
     <div className="container">
-      <h1 style={{textAlign:"center"}}>
+      <h1 style={{ textAlign: "center" }}>
         {adminInfo.role.charAt(0).toUpperCase() + adminInfo.role.slice(1)}
       </h1>
       <Card
-        sx={{ maxWidth: 300}}
+        sx={{ maxWidth: 300 }}
         style={{
           boxShadow: "2px 3px 22px 0px",
           borderRadius: "20px 20px 20px 20px",
         }}
       >
         <CardMedia
-          style={{ width: "190px", display: "flex", justifyContent: "center",marginLeft:"8.5em" }}
+          style={{
+            width: "190px",
+            display: "flex",
+            justifyContent: "center",
+            marginLeft: "8.5em",
+          }}
           component="img"
           height="80"
           image={dash_student}
           alt="green iguana"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div" style={{textAlign:"center"}}>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            style={{ textAlign: "center" }}
+          >
             <b>Students</b>
           </Typography>
         </CardContent>

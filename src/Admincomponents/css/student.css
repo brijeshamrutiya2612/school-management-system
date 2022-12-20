@@ -1,0 +1,4 @@
+.date-picker-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+}
