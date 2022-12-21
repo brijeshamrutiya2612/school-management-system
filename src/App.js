@@ -16,6 +16,7 @@ import Admission from "./Admincomponents/Admission";
 import axios from "axios";
 import { LOGIN_SUCCESS } from "./Redux/Constants/Adminconstant";
 import { ToastContainer } from "react-toastify";
+import Demo from "./Admincomponents/Demo";
 // import Home from "./Components/Home";
 const Home = React.lazy(() => import("./Components/Home"));
 function App() {
@@ -46,6 +47,7 @@ function App() {
             <Route path="/teachers" element={<Teachers />}></Route>
             <Route path="/event" element={<Event />}></Route>
             <Route path="/admission" element={<Admission />}></Route>
+            <Route path="/demo" element={<Demo />}></Route>
           </Route>
           <Route path="/login" element={<Login />}></Route>
         </Routes>

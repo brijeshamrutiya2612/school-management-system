@@ -4,6 +4,9 @@ import {
   ADD_STUDENT_DETAIL_FAIL,
   ADD_STUDENT_DETAIL_PENDING,
   ADD_STUDENT_DETAIL_RESULT,
+  GET_STUDENT_DETAIL_BY_ID_FAIL,
+  GET_STUDENT_DETAIL_BY_ID_PENDING,
+  GET_STUDENT_DETAIL_BY_ID_SUCCESS,
   GET_STUDENT_DETAIL_RESULT,
   LOGIN_FAIL,
   LOGIN_PENDING,
@@ -63,14 +66,33 @@ export const logoutAction = (login) => async (dispatch) => {
 
 /// =============== Student Action ====================   ///
 
-// Get Student Detail
+// Get All Student Detail
 
-export const getStudentDetail = (studentdata) => async (dispatch) => {
+export const getStudentDetail = () => async (dispatch) => {
   try {
     dispatch({ type: ADD_STUDENT_DETAIL_PENDING });
     const { data } = await axios.get("http://localhost:3001/students");
+    dispatch({
+      type: GET_STUDENT_DETAIL_RESULT,
+      payload: data
+    });
   } catch (error) {
     dispatch({ type: LOGIN_FAIL, payload: error });
+  }
+};
+
+// Get Student Detail by Id
+
+export const getStudentDetailById = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_STUDENT_DETAIL_BY_ID_PENDING });
+    const { data } = await axios.get(`http://localhost:3001/students/${id}`);
+    dispatch({
+      type: GET_STUDENT_DETAIL_BY_ID_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({ type: GET_STUDENT_DETAIL_BY_ID_FAIL, payload: error });
   }
 };
 
@@ -80,10 +102,6 @@ export const addStudentDetail = (studentdata) => async (dispatch) => {
   try {
     dispatch({ type: ADD_STUDENT_DETAIL_PENDING });
     const getData = await axios.get("http://localhost:3001/students");
-    dispatch({
-      type: GET_STUDENT_DETAIL_RESULT,
-      payload: getData
-    });
     const final = getData.data.filter((e) => e.email === studentdata.email);
     if (final.length > 0) {
       toast.error(`${studentdata.email} is already register`);

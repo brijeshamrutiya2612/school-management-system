@@ -22,7 +22,7 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import Dialog from "@mui/material/Dialog";
+// import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -30,7 +30,11 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import TextField from "@mui/material/TextField";
 import "./css/student.css";
-import { addStudentDetail } from "../Redux/Actions/Adminaction";
+import {
+  addStudentDetail,
+  getStudentDetail,
+  getStudentDetailById,
+} from "../Redux/Actions/Adminaction";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -40,6 +44,7 @@ import {
 } from "../Redux/Constants/Adminconstant";
 import { useNavigate } from "react-router-dom";
 import { ConstructionOutlined } from "@mui/icons-material";
+import Dialogcomponent from "./UI/Dialogcomponent.js";
 
 function createData(
   rollno,
@@ -97,7 +102,19 @@ const rows = [
 ];
 function Row(props) {
   const { row } = props;
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [detailOpen, setDetailOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("detailOpen", detailOpen);
+  }, [detailOpen]);
+
+  const checkStudentDetail = (id) => {
+    // dispatch(getStudentDetailById(id))
+    setDetailOpen(true);
+    return <Dialogcomponent open={true} />
+  };
 
   return (
     <React.Fragment>
@@ -115,35 +132,45 @@ function Row(props) {
           {row.rollno}
         </TableCell>
         <TableCell align="left">{row.e_no}</TableCell>
-        <TableCell align="left">{row.studentname}</TableCell>
+        <TableCell align="left">
+          {row.fname} {row.lname}
+        </TableCell>
         <TableCell align="center">
           {row.section}-{row.grade}
         </TableCell>
         <TableCell align="center">
-          {row.activestatus === true ? (
-            <span
-              style={{
-                backgroundColor: "green",
-                padding: "1em",
-                color: "white",
-                borderRadius: "20px",
-              }}
-            >
-              Present
-            </span>
-          ) : (
-            <span
-              style={{
-                backgroundColor: "tomato",
-                padding: "1em",
-                color: "white",
-                borderRadius: "20px",
-              }}
-            >
-              Absent
-            </span>
-          )}
+          {row.attendance_report.map((p) => {
+            return p.availability === true ? (
+              <span
+                style={{
+                  backgroundColor: "green",
+                  padding: "1em",
+                  color: "white",
+                  borderRadius: "20px",
+                }}
+              >
+                Present
+              </span>
+            ) : (
+              <span
+                style={{
+                  backgroundColor: "tomato",
+                  padding: "1em",
+                  color: "white",
+                  borderRadius: "20px",
+                }}
+              >
+                Absent
+              </span>
+            );
+          })}
         </TableCell>
+        <TableCell align="center">
+          <Button variant="contained" onClick={() => checkStudentDetail(row.id)}>
+            Detail
+          </Button>
+        </TableCell>
+        {/* <Dialogcomponent open={true} /> */}
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -155,32 +182,46 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Joining Date</TableCell>
-                    <TableCell>Enrollment No</TableCell>
-                    <TableCell>Student</TableCell>
-                    <TableCell>Address</TableCell>
-                    <TableCell>Contact</TableCell>
+                    <TableCell>
+                      <b>Joining Date</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Enrollment No</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Student</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Address</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Contact</b>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell>{historyRow.amount}</TableCell>
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.jon_date}
+                    </TableCell>
+                    <TableCell>{row.e_no}</TableCell>
+                    <TableCell>
+                      {row.fname} {row.lname}
+                    </TableCell>
+                    <TableCell>Rajkot</TableCell>
+                    <TableCell>{row.mobile}</TableCell>
+                    {/* <TableCell>{historyRow.amount}</TableCell>
                       <TableCell>
                         {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                      </TableCell> */}
+                  </TableRow>
                 </TableBody>
               </Table>
             </Box>
           </Collapse>
         </TableCell>
       </TableRow>
+      <Dialogcomponent open={detailOpen} />
     </React.Fragment>
   );
 }
@@ -189,14 +230,13 @@ const grade = [1, 2, 3, 4, 5];
 const section = ["A", "B", "C"];
 
 const Student = () => {
-  const { error, adminInfo, studentError, addStudent,getStudent } = useSelector(
-    (state) => state.admin
-  );
-  console.log("getStudent",getStudent)
-  const [open, setOpen] = useState(false);
+  const { error, adminInfo, studentError, addStudent, getStudent } =
+    useSelector((state) => state.admin);
+  console.log("getStudent", getStudent);
   const nav = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
+  const [open, setOpen] = useState(false);
   const fullScreen = useMediaQuery(theme.breakpoints.down("xl"));
   const [fullWidth, setFullWidth] = useState(true);
   const [maxWidth, setMaxWidth] = useState("lg");
@@ -222,21 +262,10 @@ const Student = () => {
     jon_date: "",
     attendance_report: [{}],
   });
-console.log("addStudent",addStudent)
-  useEffect(()=>{
-    console.log("Checking");
-    if (addStudent == 201) {
-      console.log("Rendering");
-      setTimeout(() => {
-        dispatch({
-          type: ADD_STUDENT_DETAIL_RESULT,
-          payload: [],
-        });
-      }, 5000);
-      setOpen(false);
-    }
-  },[addStudent])
-
+  console.log("addStudent", addStudent);
+  useEffect(() => {
+    dispatch(getStudentDetail());
+  }, [addStudent]);
 
   const sendStudentData = () => {
     var validRegex =
@@ -267,7 +296,7 @@ console.log("addStudent",addStudent)
     } else {
       dispatch(addStudentDetail(studentDetail));
     }
-    
+
     // setTimeout(() => {
     //   if (addStudent == 201) {
     //     setTimeout(() => {
@@ -298,16 +327,6 @@ console.log("addStudent",addStudent)
       <div className="container">
         <h1 className="center">Manage of Student</h1>
       </div>
-      <div className="container">
-        <Button
-          className="w-100"
-          variant="contained"
-          color="success"
-          onClick={handleClickOpen}
-        >
-          Add Student
-        </Button>
-      </div>
       <div className="container mt-5">
         <TableContainer component={Paper}>
           <Table aria-label="collapsible table">
@@ -319,234 +338,19 @@ console.log("addStudent",addStudent)
                 <TableCell>Student</TableCell>
                 <TableCell align="center">Section-Grade</TableCell>
                 <TableCell align="center">Status</TableCell>
+                <TableCell align="center">Detail</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {getStudent.map((row) => (
-                <Row key={row.id} row={row} />
+                <>
+                  <Row key={row.id} row={row} />
+                </>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       </div>
-      <Dialog
-        fullScreen
-        // fullWidth="xl"
-        open={open}
-        onClose={handleClose}
-      >
-        <DialogTitle style={{ fontSize: "40px" }} className="center">
-          <b>Add Student Detail</b>
-        </DialogTitle>
-        <DialogContent className="container">
-          <Box
-            noValidate
-            component=""
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              m: "auto",
-              textAlign: "left",
-            }}
-          >
-            <DialogContentText
-              style={{ fontSize: "25px", textAlign: "left" }}
-              id="alert-dialog-slide-description"
-            >
-              <b>Personal Details</b>
-            </DialogContentText>
-          </Box>
-          <Box
-            noValidate
-            component="form"
-            className="container"
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              flexDirection: "row",
-              m: "auto",
-              // width: 1800,
-            }}
-          >
-            <TextField
-              className="m-4 col-lg-2"
-              required
-              id="outlined-required"
-              label="First Name"
-              onChange={(e) =>
-                setStudentDetail({ ...studentDetail, fname: e.target.value })
-              }
-            />
-            <TextField
-              className="m-4 col-lg-2"
-              required
-              id="outlined-required"
-              label="Last Name"
-              onChange={(e) =>
-                setStudentDetail({ ...studentDetail, lname: e.target.value })
-              }
-            />
-            <TextField
-              className="m-4 col-lg-2"
-              required
-              id="outlined-required"
-              label="Email"
-              onChange={(e) =>
-                setStudentDetail({ ...studentDetail, email: e.target.value })
-              }
-            />
-            <TextField
-              className="m-4 col-lg-2"
-              required
-              id="outlined-required"
-              label="Mobile"
-              type="number"
-              onChange={(e) =>
-                setStudentDetail({ ...studentDetail, mobile: e.target.value })
-              }
-            />
-            <FormControl sx={{ m: 1, minWidth: 100 }} className="m-4">
-              <InputLabel id="demo-simple-select-autowidth-label">
-                Gender
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-autowidth-label"
-                id="demo-simple-select-autowidth"
-                value={studentDetail.gender}
-                // onChange={handleChange}
-                autoWidth
-                label="Age"
-                onChange={(e) =>
-                  setStudentDetail({ ...studentDetail, gender: e.target.value })
-                }
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value="Male">Male</MenuItem>
-                <MenuItem value="Female">Female</MenuItem>
-              </Select>
-            </FormControl>
-            <Stack component="form" noValidate spacing={3}>
-              <TextField
-                id="date"
-                label="Date of Birth"
-                type="date"
-                className="m-4"
-                defaultValue={currentDate}
-                onChange={(e) =>
-                  setStudentDetail({ ...studentDetail, dob: e.target.value })
-                }
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Stack>
-          </Box>
-          <Box
-            noValidate
-            component=""
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              m: "auto",
-              textAlign: "left",
-            }}
-          >
-            <DialogContentText
-              style={{ fontSize: "25px", textAlign: "left" }}
-              id="alert-dialog-slide-description"
-            >
-              <b>School Details</b>
-            </DialogContentText>
-          </Box>
-          <Box
-            noValidate
-            component="form"
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              m: "auto",
-            }}
-          >
-            <FormControl sx={{ m: 1, minWidth: 150 }} className="m-4">
-              <InputLabel id="demo-simple-select-autowidth-label">
-                Grade
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-autowidth-label"
-                id="demo-simple-select-autowidth"
-                value={studentDetail.grade}
-                onChange={(e) =>
-                  setStudentDetail({ ...studentDetail, grade: e.target.value })
-                }
-                autoWidth
-                label="Age"
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {grade.map((item) => {
-                  return <MenuItem value={item}>{item}</MenuItem>;
-                })}
-              </Select>
-            </FormControl>
-            <FormControl sx={{ m: 1, minWidth: 150 }} className="m-4">
-              <InputLabel id="demo-simple-select-autowidth-label">
-                Section
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-autowidth-label"
-                id="demo-simple-select-autowidth"
-                value={studentDetail.section}
-                onChange={(e) =>
-                  setStudentDetail({
-                    ...studentDetail,
-                    section: e.target.value,
-                  })
-                }
-                autoWidth
-                label="Age"
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {section.map((item) => {
-                  return <MenuItem value={item}>{item}</MenuItem>;
-                })}
-              </Select>
-            </FormControl>
-            <Stack component="form" noValidate spacing={3}>
-              <TextField
-                id="date"
-                label="Date of Joining"
-                type="date"
-                className="m-4"
-                defaultValue={currentDate}
-                onChange={(e) =>
-                  setStudentDetail({
-                    ...studentDetail,
-                    jon_date: e.target.value,
-                  })
-                }
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Stack>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="success" onClick={sendStudentData}>
-            save
-          </Button>
-          <Button variant="contained" color="error" onClick={handleClose}>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 };

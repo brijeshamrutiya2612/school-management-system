@@ -2,6 +2,8 @@ import {
   ADD_ADMISSION_DETAIL_PENDING,
   ADD_STUDENT_DETAIL_FAIL,
   ADD_STUDENT_DETAIL_RESULT,
+  GET_STUDENT_DETAIL_BY_ID_FAIL,
+  GET_STUDENT_DETAIL_BY_ID_SUCCESS,
   GET_STUDENT_DETAIL_RESULT,
   LOGIN_FAIL,
   LOGIN_PENDING,
@@ -14,9 +16,11 @@ import {
 const intialState = {
   adminInfo: [],
   error: [],
-  addStudent:[],
-  studentError:[],
-  getStudent:[],
+  addStudent: [],
+  studentError: [],
+  getStudent: [],
+  getStudentById: [],
+  getStudentById_error: [],
 };
 
 export const adminReducer = (state = intialState, action) => {
@@ -24,6 +28,7 @@ export const adminReducer = (state = intialState, action) => {
     case LOGIN_PENDING:
     case LOGOUT_PENDING:
     case ADD_ADMISSION_DETAIL_PENDING:
+    case GET_STUDENT_DETAIL_BY_ID_FAIL:
       return {
         ...state,
         loading: true,
@@ -52,6 +57,8 @@ export const adminReducer = (state = intialState, action) => {
       return { ...state, error: action.payload };
     case ADD_STUDENT_DETAIL_FAIL:
       return { ...state, studentError: action.payload };
+    case GET_STUDENT_DETAIL_BY_ID_FAIL:
+      return { ...state, getStudentById_error: action.payload };
     default:
       return state;
   }

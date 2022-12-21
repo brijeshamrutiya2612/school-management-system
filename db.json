@@ -24,12 +24,122 @@
       "jon_date": "2024-12-20",
       "attendance_report": [
         {
-          "availability": false,
+          "availability": true,
           "present_date": "2022-12-20"
         }
       ],
       "studAuthentication": false,
       "id": 1
+    },
+    {
+      "fname": "Brijraj",
+      "lname": "Kumar",
+      "rollno": "",
+      "e_no": "11012022",
+      "password": "",
+      "email": "br@gmail.com",
+      "mobile": "8401505315",
+      "gender": "Male",
+      "dob": "2022-12-22",
+      "address1": " ",
+      "address2": " ",
+      "address3": " ",
+      "grade": 1,
+      "section": "A",
+      "jon_date": "2022-12-19",
+      "attendance_report": [
+        {}
+      ],
+      "studAuthentication": false,
+      "id": 2
+    },
+    {
+      "fname": "a",
+      "lname": "a",
+      "rollno": "",
+      "e_no": "11012022",
+      "password": "",
+      "email": "a@gmail.com",
+      "mobile": "8401505315",
+      "gender": "Female",
+      "dob": "2022-12-12",
+      "address1": " ",
+      "address2": " ",
+      "address3": " ",
+      "grade": 1,
+      "section": "A",
+      "jon_date": "2022-12-01",
+      "attendance_report": [
+        {}
+      ],
+      "studAuthentication": false,
+      "id": 3
+    },
+    {
+      "fname": "w",
+      "lname": "e",
+      "rollno": "",
+      "e_no": "11012022",
+      "password": "",
+      "email": "r@gmail.com",
+      "mobile": "1010101010",
+      "gender": "Female",
+      "dob": "2022-12-08",
+      "address1": "a",
+      "address2": "a",
+      "address3": "a",
+      "grade": 1,
+      "section": "A",
+      "jon_date": "2022-12-01",
+      "attendance_report": [
+        {}
+      ],
+      "studAuthentication": false,
+      "id": 4
+    },
+    {
+      "fname": "Brijesh",
+      "lname": "Kumar",
+      "rollno": "",
+      "e_no": "11012022",
+      "password": "",
+      "email": "b@gmail.com",
+      "mobile": "8475693212",
+      "gender": "Male",
+      "dob": "2019-02-19",
+      "address1": "",
+      "address2": "sasasas",
+      "address3": "sasasasas",
+      "grade": 2,
+      "section": "A",
+      "jon_date": "2022-12-13",
+      "attendance_report": [
+        {}
+      ],
+      "studAuthentication": false,
+      "id": 5
+    },
+    {
+      "fname": "Brijesh",
+      "lname": "Kumar",
+      "rollno": "",
+      "e_no": "11012022",
+      "password": "",
+      "email": "b1@gmail.com",
+      "mobile": "8475693212",
+      "gender": "Male",
+      "dob": "2019-02-19",
+      "address1": "",
+      "address2": "sasasas",
+      "address3": "sasasasas",
+      "grade": 2,
+      "section": "A",
+      "jon_date": "2022-12-13",
+      "attendance_report": [
+        {}
+      ],
+      "studAuthentication": false,
+      "id": 6
     }
   ],
   "teachers": {

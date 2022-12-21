@@ -37,13 +37,18 @@ const Sidebar = ({ children }) => {
       name: "Admission",
       icon: <SlGraduation />,
     },
+    {
+      path: "/demo",
+      name: "Demo",
+      icon: <SlGraduation />,
+    },
   ];
   return (
     <div className="sidebar_container">
       <div style={{ width: isOpen ? "300px" : "50px" }} className="sidebar">
         <div className="top_section">
           <h1 style={{ display: isOpen ? "block" : "none" }} className="logo">
-            Logo
+            S<small>M</small>S
           </h1>
           {isOpen ? (
             <div
